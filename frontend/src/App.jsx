@@ -1,4 +1,4 @@
-import Home from "./pages/Home";
+import { Link, Outlet } from "react-router";
 
 function App() {
 	return (
@@ -9,9 +9,9 @@ function App() {
 						<h3>Movie Genre App</h3>
 					</div>
 					<div className="col text-end">
-						<a href="#!">
+						<Link to="/link">
 							<span className="badge text-bg-success">Login</span>
-						</a>
+						</Link>
 					</div>
 					<hr className="mt-2 mb-3" />
 				</div>
@@ -20,35 +20,47 @@ function App() {
 					<div className="col-md-2">
 						<nav>
 							<div className="list-group">
-								<a
-									href="#!"
+								<Link
+									to="/"
 									className="list-group-item list-group-item-action"
-								>Home</a>
-								<a
-									href="#!"
+								>
+									Home
+								</Link>
+								<Link
+									to="/movies"
 									className="list-group-item list-group-item-action"
-								>Movies</a>
-								<a
-									href="#!"
+								>
+									Movies
+								</Link>
+								<Link
+									to="/genres"
 									className="list-group-item list-group-item-action"
-								>Genres</a>
-								<a
-									href="#!"
+								>
+									Genres
+								</Link>
+								<Link
+									to="/admin/movie/0"
 									className="list-group-item list-group-item-action"
-								>Add Movie</a>
-								<a
-									href="#!"
+								>
+									Add Movie
+								</Link>
+								<Link
+									to="admin"
 									className="list-group-item list-group-item-action"
-								>Manage Catalogue</a>
-								<a
-									href="#!"
+								>
+									Manage Catalogue
+								</Link>
+								<Link
+									to="/graphql"
 									className="list-group-item list-group-item-action"
-								>GraphQL</a>
+								>
+									GraphQL
+								</Link>
 							</div>
 						</nav>
 					</div>
 					<div className="col-md-10">
-						<Home />
+						<Outlet />
 					</div>
 				</div>
 			</div>
