@@ -1,12 +1,12 @@
-const Movies = () => {
+const CreateMovie = () => {
 	return (
 		<>
 			<div className="text-center">
-				<h4>Movies</h4>
+				<h4>Create Movie</h4>
 				<hr />
 			</div>
 		</>
 	);
 };
 
-export default Movies;
+export default CreateMovie;

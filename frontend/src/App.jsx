@@ -9,7 +9,7 @@ function App() {
 						<h3>Movie Genre App</h3>
 					</div>
 					<div className="col text-end">
-						<Link to="/link">
+						<Link to="/login">
 							<span className="badge text-bg-success">Login</span>
 						</Link>
 					</div>
@@ -45,7 +45,7 @@ function App() {
 									Add Movie
 								</Link>
 								<Link
-									to="admin"
+									to="/catalogue"
 									className="list-group-item list-group-item-action"
 								>
 									Manage Catalogue
