@@ -1,6 +1,18 @@
 import { Link, Outlet } from "react-router";
+import { useState } from "react";
+import Alert from "@/components/form/alert";
 
 function App() {
+	const [jwtToken, setJwtToken] = useState("");
+	const [alertMessage, setAlertMessage] = useState("");
+	const [alertClassName, setAlertClassName] = useState("d-none");
+
+	const logOut = () => {
+		setJwtToken("");
+		setAlertMessage("Logout successful!");
+		setAlertClassName("success");
+	};
+
 	return (
 		<>
 			<div className="container mt-3">
@@ -9,9 +21,19 @@ function App() {
 						<h3>Movie Genre App</h3>
 					</div>
 					<div className="col text-end">
-						<Link to="/login">
-							<span className="badge text-bg-success">Login</span>
-						</Link>
+						{jwtToken === "" ? (
+							<Link to="/login">
+								<span className="badge text-bg-success">
+									Login
+								</span>
+							</Link>
+						) : (
+							<a href="#!" onClick={logOut}>
+								<span className="badge text-bg-danger">
+									Logout
+								</span>
+							</a>
+						)}
 					</div>
 					<hr className="mt-2 mb-3" />
 				</div>
@@ -38,29 +60,46 @@ function App() {
 								>
 									Genres
 								</Link>
-								<Link
-									to="/admin/movie/0"
-									className="list-group-item list-group-item-action"
-								>
-									Add Movie
-								</Link>
-								<Link
-									to="/catalogue"
-									className="list-group-item list-group-item-action"
-								>
-									Manage Catalogue
-								</Link>
-								<Link
-									to="/graphql"
-									className="list-group-item list-group-item-action"
-								>
-									GraphQL
-								</Link>
+								{jwtToken !== "" ? (
+									<>
+										<Link
+											to="/admin/movie/0"
+											className="list-group-item list-group-item-action"
+										>
+											Add Movie
+										</Link>
+										<Link
+											to="/catalogue"
+											className="list-group-item list-group-item-action"
+										>
+											Manage Catalogue
+										</Link>
+										<Link
+											to="/graphql"
+											className="list-group-item list-group-item-action"
+										>
+											GraphQL
+										</Link>
+									</>
+								) : (
+									""
+								)}
 							</div>
 						</nav>
 					</div>
 					<div className="col-md-10">
-						<Outlet />
+						<Alert
+							message={alertMessage}
+							className={alertClassName}
+						/>
+						<Outlet
+							context={{
+								jwtToken,
+								setJwtToken,
+								setAlertMessage,
+								setAlertClassName,
+							}}
+						/>
 					</div>
 				</div>
 			</div>
