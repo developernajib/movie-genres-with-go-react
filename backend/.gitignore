@@ -1,0 +1,57 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output of the go build command
+/build/
+/bin/
+/dist/
+*.o
+*.a
+
+# Dependency directories (go modules will handle dependencies)
+/vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Test binary
+*.test
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Environment/config files (only if they contain secrets — otherwise keep)
+.env
+.env.*
+*.local
+
+# Node.js related (if your backend has web assets or API docs with npm tooling)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage and build test artifacts
+coverage.out
+*.coverprofile
+*.cov
+*.prof

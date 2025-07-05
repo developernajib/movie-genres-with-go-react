@@ -1,29 +1,66 @@
-# Logs
-logs
+# dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# testing
+coverage/
+*.lcov
+
+# production
+build/
+dist/
+
+# environment files
+.env
+.env.prod
+.env.backup
+
+# misc
+.DS_Store
+.npmrc
+.yarnrc
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# editor directories and files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# local environment settings
 *.local
+*.cache
+.cache/
+.tmp/
+temp/
+*.pid
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# parcel-bundler
+.cache/
+.parcel-cache/
 
-# Environment files
-.env
-.env.prod
-.env.backup
+# eslint cache
+.eslintcache
+
+# stylelint cache
+.stylelintcache
+
+# storybook
+.out/
+storybook-static/
+
+# Optional: if using TypeScript
+*.tsbuildinfo
+
+# Optional: if using Mac/Linux
+*.swp
+*.swo
+
+# Optional: if using Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
