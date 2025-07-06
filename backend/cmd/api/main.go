@@ -1,7 +1,8 @@
 package main
 
 import (
-	"database/sql"
+	"backend/internal/repository"
+	"backend/internal/repository/dbrepo"
 	"flag"
 	"fmt"
 	"log"
@@ -13,7 +14,7 @@ const port = 8080
 type application struct {
 	Domain string
 	DSN    string
-	DB     *sql.DB
+	DB     repository.DatabaseRepo
 }
 
 func main() {
@@ -29,7 +30,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	app.DB = conn
+	app.DB = &dbrepo.PostgresDBRepo{DB: conn}
+	// defer conn.Close() // Closing the database connection also can be done this way
+	defer app.DB.Connection().Close()
 
 	app.Domain = fmt.Sprintf("http://localhost:%d", port)
 

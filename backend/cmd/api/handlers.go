@@ -1,7 +1,6 @@
 package main
 
 import (
-	"backend/internal/data"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -29,7 +28,11 @@ func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) AllMovies(w http.ResponseWriter, r *http.Request) {
-	movies := data.GetMoviesData()
+	movies, err := app.DB.AllMovies()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	out, err := json.Marshal(movies)
 	if err != nil {
