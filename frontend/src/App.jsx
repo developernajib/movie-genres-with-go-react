@@ -1,17 +1,53 @@
 import { Link, Outlet } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Alert from "@/components/form/alert";
+import { useNavigate } from "react-router";
 
 function App() {
 	const [jwtToken, setJwtToken] = useState("");
 	const [alertMessage, setAlertMessage] = useState("");
 	const [alertClassName, setAlertClassName] = useState("d-none");
+    const navigator = useNavigate();
 
 	const logOut = () => {
-		setJwtToken("");
-		setAlertMessage("Logout successful!");
-		setAlertClassName("success");
+		const requestOptions = {
+			method: "GET",
+			credentials: "include",
+		};
+
+		fetch("http://localhost:8080/logout", requestOptions)
+			.catch((error) => {
+				console.error("Error logging out: ", error.message);
+			})
+			.finally(() => {
+				setJwtToken("");
+			});
+
+		navigator("/login");
 	};
+
+	useEffect(() => {
+		if (jwtToken === "") {
+			const requestOptions = {
+				method: "GET",
+				credentials: "include",
+			};
+
+			fetch("http://localhost:8080/refresh", requestOptions)
+				.then((response) => response.json())
+				.then((data) => {
+					if (data.access_token) {
+						setJwtToken(data.access_token);
+					}
+				})
+				.catch((error) => {
+					console.error(
+						"No valid refresh token available:",
+						error.message
+					);
+				});
+		}
+	}, [jwtToken]);
 
 	return (
 		<>

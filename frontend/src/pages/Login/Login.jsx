@@ -13,19 +13,34 @@ const Login = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log("Email:", email, "Password:", password);
 
-		if (email === "admin@example.com") {
-			setJwtToken(
-				"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwic3ViZCI6IjEyMzQ1Njc4OTAiLCJpYXQiOjE1MTYyMzkwMjJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-			);
-			setAlertMessage("Login successful!");
-			setAlertClassName("success");
-			navigate("/");
-		} else {
-			setAlertMessage("Invalid email or password!");
-			setAlertClassName("danger");
-		}
+		let payload = { email, password };
+		const requestOptions = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			credentials: "include",
+			body: JSON.stringify(payload),
+		};
+
+		fetch("http://localhost:8080/authenticate", requestOptions)
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				if (data.error) {
+					setAlertMessage(data.message);
+					setAlertClassName("danger");
+				} else {
+					setJwtToken(data.access_token);
+					setAlertClassName("");
+					setAlertMessage("");
+					navigate("/");
+				}
+			})
+			.catch((error) => {
+				setAlertMessage(error.message);
+				setAlertClassName("danger");
+			});
 	};
 
 	return (

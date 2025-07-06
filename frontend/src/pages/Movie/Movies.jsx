@@ -18,7 +18,9 @@ const Movies = () => {
 			.then((data) => {
 				setMovies(data);
 			})
-			.catch((error) => console.log("error", error));
+			.catch((error) => {
+                console.error(error);
+            });
 	}, []);
 	return (
 		<>
@@ -39,7 +41,7 @@ const Movies = () => {
 					<tbody>
 						{Movies.map((movie) => {
 							return (
-								<tr>
+								<tr key={movie.id}>
 									<td>
 										<Link to={`/movies/${movie.id}`}>
 											{movie.title}
