@@ -55,3 +55,6 @@ coverage.out
 *.coverprofile
 *.cov
 *.prof
+
+# Packages
+postgres-data
