@@ -20,7 +20,7 @@ func main() {
 
 	// TODO: Connect to database
 
-	app.Domain = "example.com"
+	app.Domain = fmt.Sprintf("http://localhost:%d", port)
 
 	log.Println("Listening on port", port)
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/internal/data"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -18,6 +19,19 @@ func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	out, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(out)
+}
+
+func (app *application) AllMovies(w http.ResponseWriter, r *http.Request) {
+	movies := data.GetMoviesData()
+
+	out, err := json.Marshal(movies)
 	if err != nil {
 		fmt.Println(err)
 	}
