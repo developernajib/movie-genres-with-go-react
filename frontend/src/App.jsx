@@ -8,6 +8,8 @@ function App() {
 	const [alertMessage, setAlertMessage] = useState("");
 	const [alertClassName, setAlertClassName] = useState("d-none");
     const navigator = useNavigate();
+    const [ticking, setTicking] = useState(false);
+    const [tickInterval, setTickInterval] = useState();    
 
 	const logOut = () => {
 		const requestOptions = {
@@ -25,6 +27,19 @@ function App() {
 
 		navigator("/login");
 	};
+
+    const toggleRefresh = () => {
+        if (ticking) {
+            clearInterval(tickInterval);
+            setTicking(false);
+        } else {
+            const tick = () => {
+                logOut();
+            };
+            setTickInterval(setInterval(tick, 1000));
+            setTicking(true);
+        }
+    };
 
 	useEffect(() => {
 		if (jwtToken === "") {

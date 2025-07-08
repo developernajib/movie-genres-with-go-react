@@ -46,14 +46,14 @@ func main() {
 		Issuer:        app.JWTIssuer,
 		Audience:      app.JWTAudience,
 		Secret:        app.JWTSecret,
-		TokenExpiry:   time.Hour * 1,
+		TokenExpiry:   time.Minute * 15,
 		RefreshExpiry: time.Hour * 24,
 		CookiePath:    "/",
-		CookieName:    "refresh_token",
+		CookieName:    "__Host-refresh_token",
 		CookieDomain:  app.CookieDomain,
 	}
 
-	log.Println("App running on:", app.Domain)
+	log.Println("App running on port:", port)
 
 	err = http.ListenAndServe(fmt.Sprintf(":%d", port), app.routes())
 	if err != nil {

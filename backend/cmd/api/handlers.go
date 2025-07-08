@@ -86,7 +86,7 @@ func (app *application) refreshToken(w http.ResponseWriter, r *http.Request) {
 			refreshToken := cookie.Value
 
 			_, err := jwt.ParseWithClaims(refreshToken, claims, func(token *jwt.Token) (interface{}, error) {
-				return []byte(app.auth.Secret), nil
+				return []byte(app.JWTSecret), nil
 			})
 			if err != nil {
 				app.errorJSON(w, errors.New("unauthorized"), http.StatusUnauthorized)
@@ -122,4 +122,14 @@ func (app *application) refreshToken(w http.ResponseWriter, r *http.Request) {
 			app.writeJSON(w, http.StatusOK, tokenPairs)
 		}
 	}
+}
+
+func (app *application) MovieCatalog(w http.ResponseWriter, r *http.Request) {
+	movies, err := app.DB.AllMovies()
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	_ = app.writeJSON(w, http.StatusOK, movies)
 }
