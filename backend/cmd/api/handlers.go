@@ -1,10 +1,13 @@
 package main
 
 import (
+	"backend/internal/models"
 	"errors"
 	"net/http"
 	"strconv"
+	"time"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -132,4 +135,90 @@ func (app *application) MovieCatalog(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_ = app.writeJSON(w, http.StatusOK, movies)
+}
+
+func (app *application) GetMovie(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+
+	movieID, err := strconv.Atoi(id)
+	if err != nil {
+		app.errorJSON(w, errors.New("invalid id"), http.StatusBadRequest)
+		return
+	}
+
+	movie, err := app.DB.GetMovieByID(movieID)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	_ = app.writeJSON(w, http.StatusOK, movie)
+}
+
+func (app *application) UpdateMovie(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+
+	movieID, err := strconv.Atoi(id)
+	if err != nil {
+		app.errorJSON(w, errors.New("invalid id"), http.StatusBadRequest)
+		return
+	}
+
+	movie, genres, err := app.DB.UpdateMovieByID(movieID)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	var payload = struct {
+		Movie  *models.Movie   `json:"movie"`
+		Genres []*models.Genre `json:"genres"`
+	}{
+		movie,
+		genres,
+	}
+
+	_ = app.writeJSON(w, http.StatusOK, payload)
+}
+
+func (app *application) AllGenres(w http.ResponseWriter, r *http.Request) {
+	genres, err := app.DB.AllGenres()
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	_ = app.writeJSON(w, http.StatusOK, genres)
+}
+
+func (app *application) AddMovie(w http.ResponseWriter, r *http.Request) {
+	var movie models.Movie
+
+	err := app.readJSON(w, r, &movie)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	movie.CreatedAt = time.Now()
+	movie.UpdatedAt = time.Now()
+
+	newMovieID, err := app.DB.AddMovie(movie)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	err = app.DB.UpdateMovieGenres(newMovieID, movie.GenresArray)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	resp := JSONResponse{
+		Error:   false,
+		Message: "movie updated successfully",
+	}
+
+	_ = app.writeJSON(w, http.StatusAccepted, resp)
 }

@@ -2,30 +2,59 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 const ShowMovie = () => {
-	const [movie, setMovie] = useState({})
-	let { id } = useParams();
+	const [movie, setMovie] = useState([]);
+    const { id } = useParams();
 
 	useEffect(() => {
-		let demoMovie = {
-			id: 1,
-			title: "The Shawshank Redemption",
-			release_date: "23 Sep 1994",
-			runtime: "2h 22m",
-			mpaa_rating: "R",
-			description: "Two inmates find hope and redemption in prison.",
+		const headers = new Headers();
+		headers.append("Content-Type", "application/json");
+
+		const requestOptions = {
+			method: "GET",
+			headers: headers,
 		};
-		setMovie(demoMovie);
+
+		fetch(`http://localhost:8080/movies/${id}`, requestOptions)
+			.then((response) => response.json())
+			.then((data) => {
+				setMovie(data);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	}, [id]);
+
+	if (movie.genres) {
+		movie.genres = Object.values(movie.genres);
+	} else {
+		movie.genres = [];
+	}
 
 	return (
 		<>
 			<div>
-				<h4>Movie: {movie.title}</h4>
+				<h4 className="text-center">Movies</h4>
 				<hr />
-                <p>Description: {movie.description}</p>
-                <p>Runtime: {movie.runtime}</p>
-                <p>Release Date: {movie.release_date}</p>
-                <p>MPAA Rating: {movie.mpaa_rating}</p>
+				<h5>{movie.title}</h5>
+				<small>
+					<em>
+						{movie.release_date}, {movie.runtime} minutes, Rated{" "}
+						{movie.mpaa_rating}
+					</em>
+				</small>
+                <br />
+
+				{movie.genres.map((genre) => (
+                    <span key={genre.id} className="badge bg-primary me-2">{genre.genre}</span>
+                ))}
+                <hr />
+
+                {movie.image !== "" &&
+                    <div className="mb-3">
+                        <img src={`http://image.tmdb.org/t/p/w200/${movie.image}`} alt="Movie Poster" />
+                    </div>
+                }
+				<p>Description: {movie.description}</p>
 			</div>
 		</>
 	);

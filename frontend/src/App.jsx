@@ -7,9 +7,9 @@ function App() {
 	const [jwtToken, setJwtToken] = useState("");
 	const [alertMessage, setAlertMessage] = useState("");
 	const [alertClassName, setAlertClassName] = useState("d-none");
-    const navigator = useNavigate();
-    const [ticking, setTicking] = useState(false);
-    const [tickInterval, setTickInterval] = useState();    
+	const navigator = useNavigate();
+	const [ticking, setTicking] = useState(false);
+	const [tickInterval, setTickInterval] = useState();
 
 	const logOut = () => {
 		const requestOptions = {
@@ -28,18 +28,18 @@ function App() {
 		navigator("/login");
 	};
 
-    const toggleRefresh = () => {
-        if (ticking) {
-            clearInterval(tickInterval);
-            setTicking(false);
-        } else {
-            const tick = () => {
-                logOut();
-            };
-            setTickInterval(setInterval(tick, 1000));
-            setTicking(true);
-        }
-    };
+	const toggleRefresh = () => {
+		if (ticking) {
+			clearInterval(tickInterval);
+			setTicking(false);
+		} else {
+			const tick = () => {
+				logOut();
+			};
+			setTickInterval(setInterval(tick, 1000));
+			setTicking(true);
+		}
+	};
 
 	useEffect(() => {
 		if (jwtToken === "") {
@@ -69,7 +69,17 @@ function App() {
 			<div className="container mt-3">
 				<div className="row">
 					<div className="col">
-						<h3>Movie Genre App</h3>
+						<h3>
+							<Link
+								style={{
+									color: "black",
+									textDecoration: "none",
+								}}
+								to="/"
+							>
+								Movie Genre App
+							</Link>
+						</h3>
 					</div>
 					<div className="col text-end">
 						{jwtToken === "" ? (
