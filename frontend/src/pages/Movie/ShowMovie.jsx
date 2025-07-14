@@ -14,7 +14,7 @@ const ShowMovie = () => {
 			headers: headers,
 		};
 
-		fetch(`http://localhost:8080/movie/${id}`, requestOptions)
+		fetch(`${import.meta.env.VITE_APP_BACKEND}/movie/${id}`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				setMovie(data);

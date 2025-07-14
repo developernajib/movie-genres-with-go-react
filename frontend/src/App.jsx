@@ -17,7 +17,7 @@ function App() {
 			credentials: "include",
 		};
 
-		fetch("http://localhost:8080/logout", requestOptions)
+		fetch(`${import.meta.env.VITE_APP_BACKEND}/logout`, requestOptions)
 			.catch((error) => {
 				console.error("Error logging out: ", error.message);
 			})
@@ -48,7 +48,7 @@ function App() {
 				credentials: "include",
 			};
 
-			fetch("http://localhost:8080/refresh", requestOptions)
+			fetch(`${import.meta.env.VITE_APP_BACKEND}/refresh`, requestOptions)
 				.then((response) => response.json())
 				.then((data) => {
 					if (data.access_token) {

@@ -20,7 +20,7 @@ const Catalogue = () => {
 			headers: headers,
 		};
 
-		fetch("http://localhost:8080/admin/movies", requestOptions)
+		fetch(`${import.meta.env.VITE_APP_BACKEND}/admin/movies`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				setMovies(data);

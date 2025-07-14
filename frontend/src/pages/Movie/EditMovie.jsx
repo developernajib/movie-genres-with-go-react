@@ -68,7 +68,7 @@ const EditMovie = () => {
 				headers: headers,
 			};
 
-			fetch(`http://localhost:8080/genres`, requestOptions)
+			fetch(`${import.meta.env.VITE_APP_BACKEND}/genres`, requestOptions)
 				.then((response) => response.json())
 				.then((data) => {
 					const checks = [];
@@ -100,7 +100,7 @@ const EditMovie = () => {
 				headers: headers,
 			};
 
-			fetch(`http://localhost:8080/admin/movie/${id}`, requestOptions)
+			fetch(`${import.meta.env.VITE_APP_BACKEND}/admin/movie/${id}`, requestOptions)
 				.then((response) => {
 					if (response.status !== 200) {
 						setError("Invalid response code: " + response.status);
@@ -197,7 +197,7 @@ const EditMovie = () => {
 			credentials: "include",
 		};
 
-		fetch(`http://localhost:8080/admin/movie/${movie.id}`, requestOptions)
+		fetch(`${import.meta.env.VITE_APP_BACKEND}/admin/movie/${movie.id}`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.error) {
@@ -256,7 +256,7 @@ const EditMovie = () => {
 					headers: headers,
 				};
 
-				fetch(`http://localhost:8080/admin/movie/${movie.id}`, requestOptions)
+				fetch(`${import.meta.env.VITE_APP_BACKEND}/admin/movie/${movie.id}`, requestOptions)
 					.then((response) => response.json())
 					.then((data) => {
 						if (data.error) {

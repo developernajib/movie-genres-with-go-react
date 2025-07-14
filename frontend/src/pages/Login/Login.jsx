@@ -22,7 +22,7 @@ const Login = () => {
 			body: JSON.stringify(payload),
 		};
 
-		fetch("http://localhost:8080/authenticate", requestOptions)
+		fetch(`${import.meta.env.VITE_APP_BACKEND}/authenticate`, requestOptions)
 			.then((response) => {
 				return response.json();
 			})

@@ -28,7 +28,7 @@ const GraphQL = () => {
 			headers: headers,
 		};
 
-		fetch(`http://localhost:8080/graphql`, requestOptions)
+		fetch(`${import.meta.env.VITE_APP_BACKEND}/graphql`, requestOptions)
 			.then((response) => response.json())
 			.then((response) => {
 				let theList = Object.values(response.data.search);
@@ -72,7 +72,7 @@ const GraphQL = () => {
 			body: payload,
 		};
 
-		fetch(`http://localhost:8080/graphql`, requestOptions)
+		fetch(`${import.meta.env.VITE_APP_BACKEND}/graphql`, requestOptions)
 			.then((response) => response.json())
 			.then((response) => {
 				let movieList = Object.values(response.data.list);
