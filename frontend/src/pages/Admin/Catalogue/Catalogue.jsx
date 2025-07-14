@@ -54,7 +54,11 @@ const Catalogue = () => {
 											{movie.title}
 										</Link>
 									</td>
-									<td>{movie.release_date}</td>
+									<td>
+										{new Date(
+											movie.release_date
+										).toLocaleDateString()}
+									</td>
 									<td>{movie.runtime}</td>
 									<td>{movie.mpaa_rating}</td>
 									<td>{movie.description}</td>

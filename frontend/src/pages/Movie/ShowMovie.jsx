@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 
 const ShowMovie = () => {
 	const [movie, setMovie] = useState([]);
-    const { id } = useParams();
+	const { id } = useParams();
 
 	useEffect(() => {
 		const headers = new Headers();
@@ -38,22 +38,27 @@ const ShowMovie = () => {
 				<h5>{movie.title}</h5>
 				<small>
 					<em>
-						{movie.release_date}, {movie.runtime} minutes, Rated{" "}
-						{movie.mpaa_rating}
+						{new Date(movie.release_date).toLocaleDateString()},{" "}
+						{movie.runtime} minutes, Rated {movie.mpaa_rating}
 					</em>
 				</small>
-                <br />
+				<br />
 
 				{movie.genres.map((genre) => (
-                    <span key={genre.id} className="badge bg-primary me-2">{genre.genre}</span>
-                ))}
-                <hr />
+					<span key={genre.id} className="badge bg-primary me-2">
+						{genre.genre}
+					</span>
+				))}
+				<hr />
 
-                {movie.image !== "" &&
-                    <div className="mb-3">
-                        <img src={`http://image.tmdb.org/t/p/w200/${movie.image}`} alt="Movie Poster" />
-                    </div>
-                }
+				{movie.image !== "" && (
+					<div className="mb-3">
+						<img
+							src={`http://image.tmdb.org/t/p/w200/${movie.image}`}
+							alt="Movie Poster"
+						/>
+					</div>
+				)}
 				<p>Description: {movie.description}</p>
 			</div>
 		</>

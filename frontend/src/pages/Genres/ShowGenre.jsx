@@ -51,11 +51,13 @@ const OneGenre = () => {
 						{movies.map((m) => (
 							<tr key={m.id}>
 								<td>
-									<Link to={`/movie/${m.id}`}>
-										{m.title}
-									</Link>
+									<Link to={`/movie/${m.id}`}>{m.title}</Link>
 								</td>
-								<td>{m.release_date}</td>
+								<td>
+									{new Date(
+										m.release_date
+									).toLocaleDateString()}
+								</td>
 								<td>{m.mpaa_rating}</td>
 							</tr>
 						))}
