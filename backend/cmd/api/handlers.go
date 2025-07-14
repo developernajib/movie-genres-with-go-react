@@ -155,7 +155,7 @@ func (app *application) GetMovie(w http.ResponseWriter, r *http.Request) {
 	_ = app.writeJSON(w, http.StatusOK, movie)
 }
 
-func (app *application) UpdateMovie(w http.ResponseWriter, r *http.Request) {
+func (app *application) GetMovieAdmin(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 
 	movieID, err := strconv.Atoi(id)
@@ -220,5 +220,47 @@ func (app *application) AddMovie(w http.ResponseWriter, r *http.Request) {
 		Message: "movie updated successfully",
 	}
 
-	_ = app.writeJSON(w, http.StatusAccepted, resp)
+	app.writeJSON(w, http.StatusAccepted, resp)
+}
+
+func (app *application) UpdateMovie(w http.ResponseWriter, r *http.Request) {
+	var payload models.Movie
+
+	err := app.readJSON(w, r, &payload)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	movie, err := app.DB.GetMovieByID(payload.ID)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	movie.Title = payload.Title
+	movie.ReleaseDate = payload.ReleaseDate
+	movie.Description = payload.Description
+	movie.MPAARating = payload.MPAARating
+	movie.RunTime = payload.RunTime
+	movie.UpdatedAt = time.Now()
+
+	err = app.DB.UpdateMovie(*movie)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	err = app.DB.UpdateMovieGenres(movie.ID, payload.GenresArray)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	resp := JSONResponse{
+		Error:   false,
+		Message: "movie updated",
+	}
+
+	app.writeJSON(w, http.StatusAccepted, resp)
 }

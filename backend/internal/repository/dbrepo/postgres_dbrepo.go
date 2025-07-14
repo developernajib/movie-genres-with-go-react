@@ -94,10 +94,9 @@ func (m *PostgresDBRepo) GetMovieByID(id int) (*models.Movie, error) {
 	}
 
 	query = `
-		select g.id, g.genre from movies_genres mg
-		left join genres g on mg.genre_id = g.id
-		where mg.movie_id = $1
-		order by g.genre
+			select g.id, g.genre from movies_genres mg
+			left join genres g on mg.genre_id = g.id
+			where mg.movie_id = $1 order by g.genre
 		`
 
 	genreRows, err := m.DB.QueryContext(ctx, query, id)
@@ -158,7 +157,7 @@ func (m *PostgresDBRepo) UpdateMovieByID(id int) (*models.Movie, []*models.Genre
 
 	query = `
 		select g.id, g.genre from movies_genres mg
-		left join genres g on mg.genre_id = g.id
+		left join genres g on (mg.genre_id = g.id)
 		where mg.movie_id = $1
 		order by g.genre
 		`
@@ -335,6 +334,32 @@ func (m *PostgresDBRepo) AddMovie(movie models.Movie) (int, error) {
 	}
 
 	return newID, nil
+}
+
+func (m *PostgresDBRepo) UpdateMovie(movie models.Movie) error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	stmt := `update movies set title = $1, description = $2, release_date = $3,
+				runtime = $4, mpaa_rating = $5,
+				updated_at = $6, image = $7 where id = $8`
+
+	_, err := m.DB.ExecContext(ctx, stmt,
+		movie.Title,
+		movie.Description,
+		movie.ReleaseDate,
+		movie.RunTime,
+		movie.MPAARating,
+		movie.UpdatedAt,
+		movie.Image,
+		movie.ID,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (m *PostgresDBRepo) UpdateMovieGenres(id int, genreIDs []int) error {
