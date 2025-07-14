@@ -14,7 +14,7 @@ const ShowMovie = () => {
 			headers: headers,
 		};
 
-		fetch(`http://localhost:8080/movies/${id}`, requestOptions)
+		fetch(`http://localhost:8080/movie/${id}`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				setMovie(data);

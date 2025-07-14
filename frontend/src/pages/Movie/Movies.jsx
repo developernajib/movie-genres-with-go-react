@@ -43,7 +43,7 @@ const Movies = () => {
 							return (
 								<tr key={movie.id}>
 									<td>
-										<Link to={`/movies/${movie.id}`}>
+										<Link to={`/movie/${movie.id}`}>
 											{movie.title}
 										</Link>
 									</td>

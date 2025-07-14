@@ -100,7 +100,7 @@ const EditMovie = () => {
 				headers: headers,
 			};
 
-			fetch(`http://localhost:8080/admin/movies/${id}`, requestOptions)
+			fetch(`http://localhost:8080/admin/movie/${id}`, requestOptions)
 				.then((response) => {
 					if (response.status !== 200) {
 						setError("Invalid response code: " + response.status);
@@ -197,7 +197,7 @@ const EditMovie = () => {
 			credentials: "include",
 		};
 
-		fetch(`http://localhost:8080/admin/movies/${movie.id}`, requestOptions)
+		fetch(`http://localhost:8080/admin/movie/${movie.id}`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.error) {
@@ -256,17 +256,17 @@ const EditMovie = () => {
 					headers: headers,
 				};
 
-				fetch(`http://localhost:8080/admin/movies/${movie.id}`, requestOptions)
+				fetch(`http://localhost:8080/admin/movie/${movie.id}`, requestOptions)
 					.then((response) => response.json())
 					.then((data) => {
 						if (data.error) {
-							console.log(data.error);
+							console.error(data.error);
 						} else {
-							navigate("/manage-catalogue");
+							navigate("/catalogue");
 						}
 					})
 					.catch((err) => {
-						console.log(err);
+						console.error(err);
 					});
 			}
 		});

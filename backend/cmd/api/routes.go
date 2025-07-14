@@ -17,16 +17,17 @@ func (app *application) routes() http.Handler {
 	mux.Get("/refresh", app.refreshToken)
 	mux.Get("/logout", app.logout)
 	mux.Get("/movies", app.AllMovies)
-	mux.Get("/movies/{id}", app.GetMovie)
+	mux.Get("/movie/{id}", app.GetMovie)
 	mux.Get("/genres", app.AllGenres)
 
 	mux.Route("/admin", func(mux chi.Router) {
 		mux.Use(app.authRequired)
 
 		mux.Get("/movies", app.MovieCatalog)
-		mux.Get("/movies/{id}", app.GetMovieAdmin)
-		mux.Put("/movies/0", app.AddMovie)
-		mux.Patch("/movies/{id}", app.UpdateMovie)
+		mux.Get("/movie/{id}", app.GetMovieAdmin)
+		mux.Put("/movie/0", app.AddMovie)
+		mux.Patch("/movie/{id}", app.UpdateMovie)
+		mux.Delete("/movie/{id}", app.DeleteMovie)
 	})
 
 	return mux
